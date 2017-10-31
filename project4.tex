@@ -1,0 +1,66 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{graphicx}
+
+\author{Mikael B. Kiste}
+\title{FYS3150 project 4 - Ising model}
+
+\begin{document}
+	\maketitle
+	
+	\abstract{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.}
+	
+	\tableofcontents
+	
+	\newpage
+	\section{Introduction}
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+	\newpage
+	\section{Theory}
+	
+	\subsection{Analytical solution of 2x2 lattice}
+	Due to symmetries, most energies cancel out and sum out to zero. Let's look at the ones that don't do this:
+	\begin{align*}
+		-J(A(B+C)+B(A+D)+C(A+D)+D(B+C)) \neq 0\\
+		A(B+C)+D(B+C)+B(A+D)+C(A+D) \neq 0 \\
+		(A+D)(B+C)+(B+C)(A+D) \neq 0 \\
+		2(A+D)(B+C) \neq 0 \\
+		A+D \neq 0 \qquad B+C \neq 0 \\
+		\implies A=D \quad \mathrm{and} \quad B=C
+	\end{align*}
+	Here it is assumed that $J\neq 0$ in the division. We use the fact that no factor can be zero when the product is nonzero and, for the last step, we use that the variables can only assume the values 1 or -1.
+
+	\newpage
+	\section{Results}
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+	\newpage
+	\section{Conclusion}
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\end{document}
