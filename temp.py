@@ -1,9 +1,10 @@
-from numpy import *
+from metropolis_ising import *
 from matplotlib.pyplot import *
-rc('text',usetex=True)
 
-x = linspace(0,100,101)
-y = sin(x)
+s = metropolis_init()
+s2 = metropolis_ising(s)
 
-plot(x,y)
+imshow(s,cmap = 'Greys', interpolation = 'nearest')
+show()
+imshow(s2,cmap = 'Greys', interpolation = 'nearest')
 show()

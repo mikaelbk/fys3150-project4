@@ -1,24 +1,38 @@
 from numpy import *
 
-def metropolis_ising(size = 30., T = 2., rand = False, J=1, b=1.):
-	k = 1/(b*T)
-	if(rand == 1):
-		s = random.choice([-1,1],[size,size])
-	else:		
-		s = ones([size,size])
+def metropolis_init(L = 30, rand=False):
+	if (rand):
+		return random.choice([-1,1],[L,L])
+	else:
+		return ones([L,L])
 
-	for i in range(100*size**2):
-		i = random.randint(size)
-		j = random.randint(size)
+def metropolis_ising(s, T = 2.0, k = 1.0):
+	b = 1/(k*T)
+	L = len(s)
+	s_out = zeros((L,L))
+	for i in range(L):
+		for j in range(L):
+			s_out[i,j] = s[i,j]
+	for a in range(L**2):
+		i = random.randint(L)
+		j = random.randint(L)
 		top = s[i-1,j]
 		left = s[i,j-1]
-		bottom = s[i+1,j] if (i != (size-1)) else s[0,j]
-		right = s[i,j+1] if (j != (size-1)) else s[i,0]
+		bottom = s[i+1,j] if (i != (L-1)) else s[0,j]
+		right = s[i,j+1] if (j != (L-1)) else s[i,0]
 		Ediff = 2*s[i,j]*(top+bottom+left+right)
-		if(Ediff <= 0 or random.random() <= exp(-Ediff/T)):
-			s[i,j] *= -1
-	return s
+		if(Ediff <= 0 or random.random() <= exp(-b*Ediff)):
+			s_out[i,j] *= -1
+	return s_out
 
+def totalEnergy(s):
+	E = 0
+	for i in range(s.shape[0]):
+		for j in range(s.shape[1]):
+			E = E + s[i,j]*(s[i-1,j]+s[i,j-1])
+	return abs(E)
+
+"""
 def L2expectE():
 	return 8*(exp(16*b)-1)/(6*exp(8*b)+exp(16*b)+1)
 def L2expectM():
@@ -30,6 +44,7 @@ def L2expectX():
 
 if __name__ == '__main__': #only runs if this file is main
 	main()
+"""
 
 """
 from matplotlib.pyplot import *

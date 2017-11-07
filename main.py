@@ -1,7 +1,7 @@
 from matplotlib.pyplot import *
 from metropolis_ising import metropolis_ising
 
-N = 20
+N = 10
 for i in range(N):
 	if(i<N/2):
 		s = metropolis_ising()
