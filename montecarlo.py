@@ -1,23 +1,53 @@
 from matplotlib.pyplot import *
 from metropolis_ising import *
 
-L = 30
+
+# experimental variables
+L = 50
 cycles = int(5E2)
-s = zeros((cycles,L,L))
-s[0] = metropolis_init(rand = True)
+T = 1.0
+k = 1.0
+
+# arrays
 energy = zeros(cycles)
+meanE = zeros(cycles)
+s = zeros((cycles,L,L))
+
+# initializing
+s[0] = metropolis_init(L = L,rand = True)
 energy[0] = totalEnergy(s[0])
 
+# sampling
 for i in range(cycles-1):
-	s[i+1] = metropolis_ising(s[i],T=1.5)
+	s[i+1] = metropolis_ising(s[i],T=T,k=k)
 	energy[i+1] = totalEnergy(s[i+1])
 
+# mean energy
+meanE[0] = energy[0]
+for i in range(1,len(energy)):
+	meanE[i] = sum(energy[:i])/i
+
+
+"""
 for i in range(4):
 	subplot(2,2,int(i+1))
 	imshow(s[int(float(i)*(len(s)-1)/4.)],cmap = 'Greys', interpolation = 'nearest')
 show()
-plot(energy)
+"""
+
+counter = 0
+for i in range(len(energy)):
+	if(energy[i] >= counter * energy[-1] / 8):
+		subplot(3,3,counter+1)
+		imshow(s[i],cmap = 'Greys', interpolation = 'nearest')
+		title('MC cycle #' + str(i) + ' (' + str((100.*i)/len(energy)) + '  %)')
+		counter = counter + 1
 show()
+
+plot(energy)
+plot(meanE,'ro')
+show()
+
 
 #plot(energy)
 #show()

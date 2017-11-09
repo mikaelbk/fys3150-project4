@@ -1,6 +1,6 @@
 from numpy import *
 
-def metropolis_init(L = 30, rand=False):
+def metropolis_init(L = 20, rand=False):
 	if (rand):
 		return random.choice([-1,1],[L,L])
 	else:
