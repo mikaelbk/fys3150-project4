@@ -32,9 +32,10 @@ def totalEnergy(s):
 			E = E + s[i,j]*(s[i-1,j]+s[i,j-1])
 	return abs(E)
 
-"""
-def L2expectE():
+
+def L2expectE(b):
 	return 8*(exp(16*b)-1)/(6*exp(8*b)+exp(16*b)+1)
+"""
 def L2expectM():
 	return 42
 def L2expectC():
