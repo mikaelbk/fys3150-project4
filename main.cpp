@@ -11,7 +11,7 @@ using namespace std;
 using namespace arma;
 
 // inline function for periodic boundary conditions
-inline int PeriodicBoundary(int i, int limit, int add) { 
+inline int periodicBoundary(int i, int limit, int add) { 
 	return (i+limit+add) % (limit);
 }
 
@@ -24,9 +24,9 @@ int main(int argc, char const *argv[])
 	std::random_device rd;
 	std::mt19937_64 gen(rd());
 	// Set up the uniform distribution for x \in [[0, 1]
-	std::uniform_real_distribution<double> RandomNumberGenerator(0.0,1.0);
-	// Initialize the lattice spin values
-	mat SpinMatrix = zeros<mat>(L,L);
+	std::uniform_real_distribution<double> rand(0.0,1.0);
+	
+	mat lattice = zeros<mat>(L,L); // the lattice containing L² spins
 
 	return 0;
 }
@@ -37,23 +37,31 @@ void alignSpin(int L, mat& lattice, double& energy, double& magMom){
 			lattice(i,j) = 1.0;
 		}
 	}
-	magMom = L*L;
-
-	for(int x =0; x < L; x++) {
-		for (int y= 0; y < L; y++){
-			Energy -=  (double) SpinMatrix(x,y)*
-			(SpinMatrix(PeriodicBoundary(x,L,-1),y) +
-			SpinMatrix(x,PeriodicBoundary(y,L,-1)));
-		}
-	}
+	magMom += L*L;
+	energy -= 2*L*L;
 }
 
 
-void alignSpin(int L, mat& lattice, double& energy, double& magMom){
+void randomizeSpin(int L, mat& lattice, double& energy, double& magMom){
+	// cointoss function
+	std::random_device rd;
+	std::mt19937_64 gen(rd());
+	std::uniform_int_distribution<int> cointoss(0,1);
+
+	// randomization loop
 	for(int i = 0; i < L; i++){
 		for(int j = 0; j < L; j++){
-			lattice(i,j) = 1.0;
+			lattice(i,j) = cointoss(gen)*2-1;
 			magMom += lattice(i,j);
+		}
+	}
+
+	// set energy
+	for(int i = 0; i < L; i++) {
+		for (int j = 0; j < L; j++){
+			energy -=  (double) lattice(i,j) *
+			(lattice(periodicBoundary(i,L,-1),j) +
+			lattice(i,periodicBoundary(j,L,-1)));
 		}
 	}
 }
