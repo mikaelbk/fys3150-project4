@@ -4,7 +4,7 @@ from metropolis_ising import *
 
 # experimental variables
 L = 2
-cycles = int(1E5)
+cycles = int(15)
 T = 1.0
 k = 1.0
 
