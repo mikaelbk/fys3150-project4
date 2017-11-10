@@ -11,6 +11,11 @@ inline int periodicBoundary(int i, int limit, int add) {
 	return (i+limit+add) % (limit);
 }
 
+// function declaration
+void metropolis(int, int, double, vec&);
+void alignSpin(int, mat&, double&, double&);
+void randomizeSpin(int, mat&, double&, double&);
+
 int main(int argc, char const *argv[])
 {
 	// thrown message with bad usage of program call
@@ -30,22 +35,19 @@ int main(int argc, char const *argv[])
 	double tf = atof(argv[5]);
 	double dt = atof(argv[6]);
 
-	cout << outFileName << endl;
-	cout << L << endl;
-	cout << mcc << endl;
-	cout << ti << endl;
-	cout << tf << endl;
-	cout << dt << endl;
+	double energy = 0;
+	double magMom = 0;
+	vec expectVals = zeros<mat>(5);
 
-	// Initialize the seed and call the Mersienne algo
-	std::random_device rd;
-	std::mt19937_64 gen(rd());
-	// Set up the uniform distribution for x \in [[0, 1]
-	std::uniform_real_distribution<double> rand(0.0,1.0);
-	
-	mat lattice = zeros<mat>(L,L); // the lattice containing L² spins
+	for (int t = ti; t <= tf; t += dt)
+	{
+		metropolis(L,mcc,t,expectVals);
+	}
 
 	return 0;
+}
+
+void metropolis(int L, int mcc, double t, vec& expectVals){
 }
 
 void alignSpin(int L, mat& lattice, double& energy, double& magMom){
