@@ -1,9 +1,4 @@
-/*
-Program to solve the two-dimensional Ising model
-The coupling constant J = 1
-Boltzmann's constant = 1, temperature has thus dimension energy
-Metropolis sampling is used. Periodic boundary conditions.
-*/
+
 #include <iostream>
 #include <armadillo>
 #include <random>
@@ -17,6 +12,17 @@ inline int periodicBoundary(int i, int limit, int add) {
 
 int main(int argc, char const *argv[])
 {
+	// thrown message with bad usage of program call
+	if (argc != 7) {
+		cout << "\tError: Invalid number of arguments. Program requires the following call:" << endl;
+		cout << "\t " << argv[0] << " outFileName L mcc ti tf dt" << endl;
+		cout << "\tWhere the arguments are:\n\toutFileName:\tName that will be given to the output file\n\tL:\tSquare root of the number of lattice points for the LxL lattice\n\tmcc:\tTotal number of Montecarlo cycles. Each cycle performes L^2 number of Metropolis algorithm cycles\n\tti:\tstarting temperature of experiment\n\ttf:\tfinal temperature of experiment\n\tdt:\ttemperature step between measurements" << endl;
+		exit(1);
+	}
+
+	// declaration of input arguments
+	string outFileName = argv[1];
+
 	int L = 20; // lattice size is L²
 	double T = 1.0;
 
