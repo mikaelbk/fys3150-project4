@@ -27,13 +27,13 @@ int main(int argc, char const *argv[])
 	// thrown message with bad usage of program call
 	if (argc != 7) {
 		cout << "\tError: Invalid number of arguments. Program requires the following call:" << endl;
-		cout << "\t " << argv[0] << " outFileName L mcc ti tf dt" << endl;
-		cout << "\tWhere the arguments are:\n\toutFileName:\tName that will be given to the output file\n\tL:\tSquare root of the number of lattice points for the LxL lattice\n\tmcc:\tNumber of Montecarlo cycles. If less than 20 then is set to 10^mcc\n\tti:\tstarting temperature of experiment\n\ttf:\tfinal temperature of experiment\n\tdt:\ttemperature step between measurements" << endl;
+		cout << "\t " << argv[0] << " filename L mcc ti tf dt" << endl;
+		cout << "\tWhere the arguments are:\n\tfilename:\tName that will be given to the output file\n\tL:\tSquare root of the number of lattice points for the LxL lattice\n\tmcc:\tNumber of Montecarlo cycles. If less than 20 then is set to 10^mcc\n\tti:\tstarting temperature of experiment\n\ttf:\tfinal temperature of experiment\n\tdt:\ttemperature step between measurements" << endl;
 		exit(1);
 	}
 
 	// declaration of input arguments
-	string outFileName = argv[1];	// filename of the data .txt file
+	string filename = argv[1];	// filename of the data .txt file
 	int L = atoi(argv[2]);			// LxL size of lattice
 	int mcc = atoi(argv[3]);		// number of MC cycles
 	if(mcc < 20){mcc = int(pow(10,mcc));};
@@ -44,7 +44,13 @@ int main(int argc, char const *argv[])
 	double energy = 0;	// variable for the energy
 	double magMom = 0;	// variable for the magnetic momentum
 	vec expectVals = zeros<mat>(5);	// list that contains various expectation values
-
+	
+	// Declare new file name and add lattice size to file name
+	string fileout = filename;
+	string argument = to_string(L);
+	fileout.append(argument);
+	ofile.open(fileout);
+	
 	// loop that runs the 'experiment' and takes measurements at different temperatures
 	for (double T = ti; T <= tf; T += dt)
 	{
@@ -52,6 +58,7 @@ int main(int argc, char const *argv[])
 		metropolis(L,mcc,T,expectVals,false);
 		WriteResultstoFile(L, mcc, T, expectVals);
 	}
+	ofile.close();
 
 	return 0;
 }
@@ -137,13 +144,13 @@ void randomizeSpin(int L, mat& lattice, double& energy, double& magMom){
 
 void WriteResultstoFile(int NSpins, int MCcycles, double temperature, vec ExpectationValues)
 {
-	cout << "was called" << endl;
-	double norm = 1.0/((double) (MCcycles));  // divided by  number of cycles 
+	double norm = 1.0/((double) (MCcycles));  // divided by  number of cycles
 	double E_ExpectationValues = ExpectationValues(0)*norm;
 	double E2_ExpectationValues = ExpectationValues(1)*norm;
 	double M_ExpectationValues = ExpectationValues(2)*norm;
 	double M2_ExpectationValues = ExpectationValues(3)*norm;
 	double Mabs_ExpectationValues = ExpectationValues(4)*norm;
+
 	// all expectation values are per spin, divide by 1/NSpins/NSpins
 	double Evariance = (E2_ExpectationValues- E_ExpectationValues*E_ExpectationValues)/NSpins/NSpins;
 	double Mvariance = (M2_ExpectationValues - Mabs_ExpectationValues*Mabs_ExpectationValues)/NSpins/NSpins;
