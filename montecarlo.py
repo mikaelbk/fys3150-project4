@@ -3,8 +3,8 @@ from metropolis_ising import *
 
 
 # experimental variables
-L = 2
-cycles = int(15)
+L = 20
+cycles = int(1E3)
 T = 1.0
 k = 1.0
 
@@ -28,7 +28,7 @@ print 'mean energy'
 meanE[0] = energy[0]
 for i in range(1,len(energy)):
 	meanE[i] = sum(energy[:i])/i
-print 'check'
+print 'plotting'
 
 # plotting
 """
