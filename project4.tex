@@ -10,14 +10,13 @@
 \title{FYS3150 project 4 - Ising model}
 
 \begin{document}
-	\maketitle
+\maketitle
 	
-	\abstract{A numerical study on the temperature dependancy of ferromagnets in accordance with the Ising model has been conducted by utilizing the Monte Carlo method and the Metropolis algorithm}
+\abstract{A numerical study on the temperature dependancy of ferromagnets in accordance with the Ising model has been conducted by utilizing the Monte Carlo method and the Metropolis algorithm}
 	
-	\tableofcontents
-	
-	\newpage
-	\section{Introduction}
+\tableofcontents \newpage
+
+\section{Introduction}
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -26,11 +25,22 @@
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 	\newpage
-	\section{Theory}
-	
-	\subsection{Analytical solution of 2x2 lattice}
+
+\section{Theory}
+\subsection{Analytical solution of energies for the 2x2 lattice}
+	In the following will be considered a 2x2 lattice with spins labeled A,B,C and D that is either spin up or spin down.
+	\begin{center}
+	\begin{tabular}{ | c | c | }
+	\hline
+	A & B \\ \hline
+	C & D \\
+	\hline
+	\end{tabular}
+	\end{center}
+	Let spin up and spin down be represented by the numbers 1 and -1 respectively. This makes sense when summing over nearest neighbour spin interactions when calculating the energy since opposite spins sum out to zero and equal spins contribute an equal amount of energy (say J) no matter the order.
 	Due to symmetries, most energies cancel out and sum out to zero. Let's look at the ones that don't do this:
 	\begin{align*}
+		E = -J\sum_{kl}^Ns_k s_l \neq 0\\
 		-J(A(B+C)+B(A+D)+C(A+D)+D(B+C)) \neq 0\\
 		A(B+C)+D(B+C)+B(A+D)+C(A+D) \neq 0 \\
 		(A+D)(B+C)+(B+C)(A+D) \neq 0 \\
@@ -39,16 +49,61 @@
 		\implies A=D \quad \mathrm{and} \quad B=C
 	\end{align*}
 	Here it is assumed that $J\neq 0$ in the division. We use the fact that no factor can be zero when the product is nonzero and, for the last step, we use that the variables can only assume the values 1 or -1.
-	So the only microstates with energies are
+	So the only microstates with non-zero energies are
+	\begin{center}
+	\begin{tabular}{  l  c  c  }
+		Spin configuration & & Energy \\
+		$[1,1,1,1]$	&
+		\begin{tabular}{  c  c  }
+			$\uparrow$ & $\uparrow$\\
+			$\uparrow$ & $\uparrow$
+		\end{tabular}
+		&	-8J \\ \hline\\
+		$[1,-1,-1,1]$	&
+		\begin{tabular}{  c  c  }
+			$\uparrow$ & $\downarrow$\\
+			$\downarrow$ & $\uparrow$
+		\end{tabular}
+		&	-8J\\ \hline \\
+		$[-1,1,1,-1]$	&
+		\begin{tabular}{  c  c  }
+			$\downarrow$ & $\uparrow$\\
+			$\uparrow$ & $\downarrow$
+		\end{tabular}
+		& 8\\ \hline \\
+		$[-1,-1,-1,-1]$	&
+		\begin{tabular}{  c  c  }
+			$\downarrow$ & $\downarrow$\\
+			$\downarrow$ & $\downarrow$
+		\end{tabular}
+		& 8J
+	\end{tabular}
+	\end{center}
+	Where the energies are calculated by using formula INSERT using periodic boundary conditions.
+	Because the total number of microstates is $2^{2n}$ in an $nxn$ lattice there must be 12 other microstates with zero energy.
+\subsection{Analytical expressions for expectation values in 2x2 lattice}
+	Finding expectation values is made a lot easier if you have the partition function. Fortunately it is trivial to find it in this specific case as we already have all the energies for the relatively few number of microstates. The partition function is defined as
+	\begin{equation}
+		Z = \sum{i}e^{-\beta E_i}
+	\end{equation}
+	Which is a sum over all microstates with their corresponding energies and $\beta$ is a variable that is inversely related to temperature. In our case the partition function is
 	\begin{align*}
-		[1,1,1,1]\\
-		[1,-1,-1,1]\\
-		[-1,1,1,-1]\\
-		[-1,-1,-1,-1]
+		Z = 2e^{8J\beta}+2e^{-8J\beta}+12
 	\end{align*}
-
+	Now that we have the partition function we can calculate common expectation values, starting with the energy
+	\begin{align*}
+		\langle E \rangle & = - \pdv{\ln{Z}}{\beta}\\
+		& = - \frac{1}{Z} \pdv{Z}{\beta} \\
+		%&= - \frac{16Je^{8J\beta}-16Je^{-8J\beta}}{2e^{8J\beta} + 2e^{-8J\beta} + 12}\\
+		&= - \frac{8\qty(Je^{8J\beta}-Je^{-8J\beta})}{e^{8J\beta} + e^{-8J\beta} + 6}
+	\end{align*}
+	There is a certain symmetry in the system as it has no way of differentiating between spin up or spin down. From this it follows that the expectation value for magnetization, $\langle M \rangle$, must be zero. As is common in such cases we calculate the square and absolute value instead
+	\begin{align*}
+		\langle M^2 \rangle & = \tfrac{1}{Z} 
+	\end{align*}
 	\newpage
-	\section{Results}
+
+\section{Results}
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -57,7 +112,8 @@
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 	\newpage
-	\section{Conclusion}
+
+\section{Conclusion}
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
