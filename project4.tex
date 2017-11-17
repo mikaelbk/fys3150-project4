@@ -97,9 +97,28 @@
 		%&= - \frac{16Je^{8J\beta}-16Je^{-8J\beta}}{2e^{8J\beta} + 2e^{-8J\beta} + 12}\\
 		&= - \frac{8\qty(Je^{8J\beta}-Je^{-8J\beta})}{e^{8J\beta} + e^{-8J\beta} + 6}
 	\end{align*}
-	There is a certain symmetry in the system as it has no way of differentiating between spin up or spin down. From this it follows that the expectation value for magnetization, $\langle M \rangle$, must be zero. As is common in such cases we calculate the square and absolute value instead
+	There is a certain symmetry in the system as it has no way of differentiating between spin up or spin down. From this it follows that the expectation value for magnetization, $\langle M \rangle$, must be zero. As is common in such cases we calculate the square and absolute value instead. The magnetization for a microstate $M_i$ is calculated simply by taking a sum over all the spins in this state. 
+	$$ \abs{M_i} = A_i + B_i + C_i + D_i $$
+	Since two spin up and two spin down yields a net zero magnetization these states do not contribute to the expectation value directly. We are left with the states where all spins are aligned and states where there is a single spin pointing in the opposite direction to the others. Observing that there are four states where a single spin is down and the same for spin up we realize that the multiplicity for states with a single spin misaligned must be 8. We already know all energies for the various states and conveniantly enough it appears that for states with equal absolute/squared magnetization they also have equal energies.
+
+	\begin{center}
+	\begin{tabular}{c c c c c}
+		microstate	&	multiplicity	&	$|M|$	&	$M^2$ 	&	$E_i$\\
+		\hline \\
+		all aligned	&	2	&	4	&	16	&	-8J\\
+		single spin misaligned & 8	&	2	&	4	&	0
+	\end{tabular}
+	\end{center}
+
 	\begin{align*}
-		\langle M^2 \rangle & = \tfrac{1}{Z} 
+		\langle \abs{M} \rangle & = \tfrac{1}{Z} \sum_{i}\abs{M_i}e^{-\beta E_i} = \frac{2(4e^{8J\beta}) + 8(2e^{0})}{Z} = 
+		\frac{4e^{8J\beta}+8}{e^{8J\beta}+e^{-8J\beta}+6}\\
+		\langle M^2 \rangle & = \tfrac{1}{Z} \sum_{i}M_i^2e^{-\beta E_i} = \frac{2(16e^{8J\beta}) + 8(4e^{0})}{Z} = 
+		\frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}\\
+	\end{align*}
+	The magnetic susceptibility comes out quite nicely from the following relation
+	\begin{align*}
+		\chi = \beta \qty( \braket{M^2} - \braket{M}^2 ) = \beta \frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}
 	\end{align*}
 	\newpage
 
