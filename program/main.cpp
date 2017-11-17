@@ -25,36 +25,38 @@ void WriteResultstoFile(int, int, double, vec);
 int main(int argc, char const *argv[])
 {
 	// thrown message with bad usage of program call
-	if (argc != 7) {
+	if (argc != 6) {
 		cout << "\tError: Invalid number of arguments. Program requires the following call:" << endl;
-		cout << "\t " << argv[0] << " filename L mcc ti tf dt" << endl;
-		cout << "\tWhere the arguments are:\n\tfilename:\tName that will be given to the output file\n\tL:\tSquare root of the number of lattice points for the LxL lattice\n\tmcc:\tNumber of Montecarlo cycles. If less than 20 then is set to 10^mcc\n\tti:\tstarting temperature of experiment\n\ttf:\tfinal temperature of experiment\n\tdt:\ttemperature step between measurements" << endl;
+		cout << "\t " << argv[0] << " L mcc ti tf nt" << endl;
+		cout << "\tWhere the arguments are:\n\tL:\tSquare root of the number of lattice points for the LxL lattice\n\tmcc:\tNumber of Montecarlo cycles. If less than 20 then is set to 10^mcc\n\tti:\tstarting temperature of experiment\n\ttf:\tfinal temperature of experiment\n\tnt:\tnumber of measurements between ti and tf" << endl;
 		exit(1);
 	}
 
 	// declaration of input arguments
-	string filename = argv[1];	// filename of the data .txt file
-	int L = atoi(argv[2]);			// LxL size of lattice
-	int mcc = atoi(argv[3]);		// number of MC cycles
+	//string filename = argv[1];	// filename of the data .txt file
+	int L = atoi(argv[1]);			// LxL size of lattice
+	int mcc = atoi(argv[2]);		// number of MC cycles
 	if(mcc < 20){mcc = int(pow(10,mcc));};
-	double ti = atof(argv[4]);		// initial temperature
-	double tf = atof(argv[5]);		// final temperature
-	double dt = atof(argv[6]);		// temperature step
-
+	double ti = atof(argv[3]);		// initial temperature
+	double tf = atof(argv[4]);		// final temperature
+	int nt = atoi(argv[5]);		// temperature step
+	double dt = (tf-ti)/nt;
 	double energy = 0;	// variable for the energy
 	double magMom = 0;	// variable for the magnetic momentum
 	vec expectVals = zeros<mat>(5);	// list that contains various expectation values
-	
-	// Declare new file name and add lattice size to file name
-	string fileout = filename;
-	string argument = to_string(L);
-	fileout.append(argument);
+	double T;
+	//string filename = "test";
+	string fileout = to_string(L) + "x" + to_string(L) + "_" + to_string(int(0.3+log10(mcc)));
+
 	ofile.open(fileout);
+
 	
 	// loop that runs the 'experiment' and takes measurements at different temperatures
-	for (double T = ti; T <= tf; T += dt)
+	for (int i = 0; i < nt; ++i)
 	{
-		cout << "sampling for T=" << T << endl;
+		T = ti + i*dt;
+		//printf("T = %.8f\n", T);
+		cout << "T = " << T << endl; 
 		metropolis(L,mcc,T,expectVals,false);
 		WriteResultstoFile(L, mcc, T, expectVals);
 	}
@@ -76,12 +78,12 @@ void metropolis(int L, int mcc, double T, vec& expectVals, bool rand){
 	mat lattice = zeros<mat>(L,L);
 	if(rand){randomizeSpin(L, lattice, energy, magMom);} else{alignSpin(L, lattice, energy, magMom);}
 
-	// initialize array for expectation values
+	// initialize array for expectation ExpectationValues
 	// setup array for possible energy changes
 	vec deVector = zeros<mat>(17); 
 	for( int de =-8; de <= 8; de+=4) deVector(de+8) = exp(-de/T);
 	// Start Monte Carlo cycles
-	for (int cycles = 1; cycles <= mcc; cycles++){
+	for (int cycle = 1; cycle <= mcc; cycle++){
 		// The sweep over the lattice, looping over all spin sites
 		for(int x =0; x < L; x++) {
 			for (int y= 0; y < L; y++){
@@ -99,11 +101,12 @@ void metropolis(int L, int mcc, double T, vec& expectVals, bool rand){
 				}
 			}
 		}
-		// update expectation values  for local node
-		expectVals(0) += energy;    expectVals(1) += energy*energy;
-		expectVals(2) += magMom;    
-		expectVals(3) += magMom*magMom; 
-		expectVals(4) += fabs(magMom);
+		if(cycle > 0.5*mcc){
+			expectVals(0) += energy;    expectVals(1) += energy*energy;
+			expectVals(2) += magMom;    
+			expectVals(3) += magMom*magMom; 
+			expectVals(4) += fabs(magMom);
+		}
 	}
 }
 

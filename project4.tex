@@ -9,6 +9,8 @@
 \author{Mikael B. Kiste}
 \title{FYS3150 project 4 - Ising model}
 
+\newcommand{\expect}[1]{\langle #1 \rangle}
+
 \begin{document}
 \maketitle
 	
@@ -117,9 +119,9 @@
 		\frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}\\
 	\end{align*}
 	The magnetic susceptibility comes out quite nicely from the following relation
-	\begin{align*}
-		\chi = \beta \qty( \braket{M^2} - \braket{M}^2 ) = \beta \frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}
-	\end{align*}
+	\begin{equation*}
+		\chi = \beta \qty( \expect{M^2} - \expect{M}^2 ) = \beta \frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}
+	\end{equation*}
 	\newpage
 
 \section{Results}
