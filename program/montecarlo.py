@@ -4,7 +4,7 @@ from metropolis_ising import *
 
 # experimental variables
 L = 20
-cycles = int(1E3)
+cycles = int(1E4)
 T = 1.0
 k = 1.0
 
@@ -21,15 +21,16 @@ energy[0] = totalEnergy(s[0])
 print 'MC with ' + str(cycles) + ' cycles'
 for i in range(cycles-1):
 	s[i+1] = metropolis_ising(s[i],T=T,k=k)
-	energy[i+1] = totalEnergy(s[i+1])
+	#energy[i+1] = totalEnergy(s[i+1])
 
 print 'mean energy'
 # mean energy
+"""
 meanE[0] = energy[0]
 for i in range(1,len(energy)):
 	meanE[i] = sum(energy[:i])/i
 print 'plotting'
-
+"""
 # plotting
 """
 counter = 0
@@ -41,9 +42,9 @@ for i in range(len(energy)):
 		counter = counter + 1
 show()
 """
-
+"""
 plot(meanE[int(9*len(meanE)/10.):] - L2expectE(1))
 show()
-
+"""
 #plot(energy)
 #show()

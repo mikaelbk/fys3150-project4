@@ -40,7 +40,8 @@ int main(int argc, char const *argv[])
 	double ti = atof(argv[3]);		// initial temperature
 	double tf = atof(argv[4]);		// final temperature
 	int nt = atoi(argv[5]);		// temperature step
-	double dt = (tf-ti)/nt;
+	double dt;
+	if(nt == 1){dt = 0;}else{dt = (tf-ti)/double(nt-1);}
 	double energy = 0;	// variable for the energy
 	double magMom = 0;	// variable for the magnetic momentum
 	vec expectVals = zeros<mat>(5);	// list that contains various expectation values
