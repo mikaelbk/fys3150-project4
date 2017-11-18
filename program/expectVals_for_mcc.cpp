@@ -59,6 +59,7 @@ int main(int argc, char const *argv[])
 		cout << "T = " << T << endl; 
 		metropolis(L,mcc,T,expectVals,false);
 		WriteResultstoFile(L, mcc, T, expectVals);
+		expectVals = zeros<mat>(5);
 	}
 	ofile.close();
 
@@ -145,9 +146,9 @@ void randomizeSpin(int L, mat& lattice, double& energy, double& magMom){
 	}
 }
 
-void WriteResultstoFile(int NSpins, int MCcycles, double temperature, vec ExpectationValues)
+void WriteResultstoFile(int NSpins, int mcc, double temperature, vec ExpectationValues)
 {
-	double norm = 1.0/((double) (MCcycles));  // divided by  number of cycles
+	double norm = 1.0/((double) (mcc/2));  // divided by  number of cycles
 	double E_ExpectationValues = ExpectationValues(0)*norm;
 	double E2_ExpectationValues = ExpectationValues(1)*norm;
 	double M_ExpectationValues = ExpectationValues(2)*norm;
