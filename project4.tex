@@ -13,23 +13,38 @@
 
 \begin{document}
 \maketitle
-	
-\abstract{A numerical study on the temperature dependancy of ferromagnets in accordance with the Ising model has been conducted by utilizing the Monte Carlo method and the Metropolis algorithm}
+
+\abstract{A numerical study on the temperature dependency of ferromagnets in accordance with the Ising model has been conducted by utilizing the Monte Carlo method and the Metropolis algorithm \footnote{full repository at https://github.com/mikaelbk/fys3150-project4}}
 	
 \tableofcontents \newpage
 
 \section{Introduction}
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	In its essence, the two dimensional Ising model of a ferromagnet takes into consideration a lattice of dipoles that can either be spin up or spin down. A ferromagnet can reduce its internal energy by aligning spins (consequentially yielding a net magnetization), however, at higher temperatures, the 'randomizing' effects of entropy dominates. A description of the interplay between these to effects is achieved through Helmholtz free energy; and a thermodynamic equilibrium is reached when this free energy is minimized. The experimental results illustrates how the energy at equilibrium\footnote{More specifically the average energy values sampled for a system over a significant period of time} changes as a function of temperature and also the relative relaxation time for different systems.
+	The simple 2x2 lattice is first considered as it is relatively simple to solve it analytically. This allows for a comparison between analytical and numerical results.
+	Later we solve for lattices of increasing size, which greatly increases complexity and computational requirements.
 
 	\newpage
 
 \section{Theory}
-\subsection{Analytical solution of energies for the 2x2 lattice}
+\subsection{The Ising Model}
+	In the two dimensional Ising model we consider a lattice of dipoles that are allowed one of two spins, up or down. This restriction means that the model does break down to some degree at low temperatures, but fortunately is more accurate near the Curie temperature.\cite[p.~340]{schroeder} It does not take into account long range interactions but rather each dipole interacts with its neighbors, four in our 2D case. Despite its simplicity the model does manage to predict the phase transition where the ferromagnet becomes a paramagnet at a sufficiently high critical temperature, famously called the Curie temperature, $T_C$. A general analytical solution of the partition function for the two-dimensional Ising model on a square lattice was solved in the 1940s by Lars Onsager\cite[p.~343]{schroeder}. This solution however is way beyond the scope of this project. Instead only the simple 2x2 will be solved analytically and numerical techniques will be utilized for larger systems.\\
+	The energy and magnetization are two important quantities. Simplistically we can express the energy of a microstate as a sum over all immediate neighbor dipoles
+	\begin{equation}
+		E_i = -J\sum_{<kl>}^N s_k s_l
+	\end{equation}
+	Such that neighbors with opposing spin contributes with $J$ to the total energy and aligned spin contributes with $-J$. Here J acts as a coupling constant.\\
+	The magnetization is simply a sum over all the spins themselves. Opposing spin cancel out and the average magnetization is given as the surplus of spin in one of the two directions.
+	\begin{equation}
+		M_i = \sum_k^N s_k
+	\end{equation}
+	The system acts according to the Boltzman distribution where the partition function is found to be
+	\begin{equation}
+		Z = \sum_ie^{-E_i\beta}
+	\end{equation}
+	Which is a sum over the energies for all possible microstates. Since an nxn lattice has a total of $2^{n^2}$ possible microstates, and the  energy for each of those is a sum over $n^2$, brute calculation of the partition function for large systems is impossible. 
+\subsection{The 2 dimensional lattice}
+	Describing the 
+\subsubsection{Analytical solution of energies for the 2x2 lattice}
 	In the following will be considered a 2x2 lattice with spins labeled A,B,C and D that is either spin up or spin down.
 	\begin{center}
 	\begin{tabular}{ | c | c | }
@@ -128,7 +143,7 @@
 	\end{equation}
 
 	\newpage
-
+\subsection{}
 \section{Results}
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -146,5 +161,13 @@
 	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{thebibliography}{9}
+	\bibitem{schroeder}
+	Daniel V. Schroeder,
+	\textit{An introduction to thermal physics},
+	San Francisco, Calif.: Addison Wesley Longman,
+	2005
+\end{thebibliography}
 
 \end{document}
