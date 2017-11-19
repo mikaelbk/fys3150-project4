@@ -1,5 +1,11 @@
 from numpy import *
 
+def energyArray(b = 1):
+	array = zeros(17)
+	for i in linspace(-8,8,5):
+		array[int(i+8)] = exp(-i*b)
+	return array
+
 def metropolis_init(L = 20, rand=False):
 	if (rand):
 		return random.choice([-1,1],[L,L])
@@ -10,6 +16,7 @@ def metropolis_ising(s, T = 2.0, k = 1.0):
 	b = 1/(k*T)
 	L = len(s)
 	s_out = zeros((L,L))
+	energies = energyArray(b)
 	for i in range(L):
 		for j in range(L):
 			s_out[i,j] = s[i,j]
@@ -21,7 +28,9 @@ def metropolis_ising(s, T = 2.0, k = 1.0):
 		bottom = s[i+1,j] if (i != (L-1)) else s[0,j]
 		right = s[i,j+1] if (j != (L-1)) else s[i,0]
 		Ediff = 2*s[i,j]*(top+bottom+left+right)
-		if(Ediff <= 0 or random.random() <= exp(-b*Ediff)):
+		if(Ediff <= 0):
+			s_out[i,j] *= -1
+		elif(random.random() <= energies[int(Ediff+8)]):
 			s_out[i,j] *= -1
 	return s_out
 
@@ -30,7 +39,7 @@ def totalEnergy(s):
 	for i in range(s.shape[0]):
 		for j in range(s.shape[1]):
 			E = E + s[i,j]*(s[i-1,j]+s[i,j-1])
-	return abs(E)
+	return E
 
 
 def L2expectE(b):

@@ -6,6 +6,9 @@
 \contentsline {subsection}{\numberline {2.3}The 2x2 lattice}{5}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}Analytical solution of energies for the 2x2 lattice}{5}{subsubsection.2.3.1}
 \contentsline {subsubsection}{\numberline {2.3.2}Partition function, magnetization and expectation values}{6}{subsubsection.2.3.2}
-\contentsline {section}{\numberline {3}Results}{8}{section.3}
-\contentsline {section}{\numberline {4}Conclusion}{9}{section.4}
-\contentsline {section}{\numberline {5}Postface}{9}{section.5}
+\contentsline {section}{\numberline {3}Results}{9}{section.3}
+\contentsline {subsection}{\numberline {3.1}Comparison with analytical results}{9}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Microstates during the relaxation time}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Achievable states after equilibrium is reached}{13}{subsection.3.3}
+\contentsline {section}{\numberline {4}Conclusion}{14}{section.4}
+\contentsline {section}{\numberline {5}Postface}{15}{section.5}

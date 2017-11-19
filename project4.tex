@@ -141,6 +141,12 @@
 			%&= - \frac{16Je^{8J\beta}-16Je^{-8J\beta}}{2e^{8J\beta} + 2e^{-8J\beta} + 12}\\
 			&= - \frac{8\qty(Je^{8J\beta}-Je^{-8J\beta})}{e^{8J\beta} + e^{-8J\beta} + 6}
 		\end{align*}
+		and in a similar fashion energy squared
+		\begin{align*}
+			\expect{E^2} = \tfrac{1}{Z} \sum_i {E_i}^2 e^{-E_i\beta}\\
+			= \frac{1}{z} \qty(128J^2\qty(e^{E_i\beta} + e^{-E_i\beta}))\\
+			= \frac{64J^2\qty(e^{E_i\beta} + e^{-E_i\beta})}{e^{E_i\beta} + e^{-E_i\beta} + 6}
+		\end{align*}
 		There is a certain symmetry in the system as it has no way of differentiating between spin up or spin down. From this it follows that the expectation value for magnetization, $\langle M \rangle$, must be zero. As is common in such cases we calculate the square and absolute value instead. The magnetization for a microstate $M_i$ is calculated simply by taking a sum over all the spins in this state. 
 		$$ \abs{M_i} = A_i + B_i + C_i + D_i $$
 		Since two spin up and two spin down yields a net zero magnetization these states do not contribute to the expectation value directly. We are left with the states where all spins are aligned and states where there is a single spin pointing in the opposite direction to the others. Observing that there are four states where a single spin is down and the same for spin up we realize that the multiplicity for states with a single spin misaligned must be 8. We already know all energies for the various states and conveniently enough it appears that for states with equal absolute/squared magnetization they also have equal energies.
@@ -164,33 +170,105 @@
 		\begin{equation*}
 			\chi = \beta \qty( \expect{M^2} - \expect{M}^2 ) = \beta \frac{16\qty(e^{8J\beta}+1)}{e^{8J\beta}+e^{-8J\beta}+6}
 		\end{equation*}
-		For the specific heat capacity we get
-		\begin{equation}
-			\expect{C_v} = -\frac{1}{kT^2}\pdv{}
-		\end{equation}
+		For clarity when calculating the specific heat capacity let $X = e^{8J\beta}$ and $Y = e^{-8J\beta}$, so that $XY=1$.
+		We have 
+		\begin{align*}
+			\expect{C_v}  = -\frac{1}{kT^2}\qty( \expect{E^2}-\expect{E}^2 )\\
+			kT^2\expect{C_v}  = \frac{64J^2(X+Y)}{X+Y+6} - \qty(\frac{8J(X-Y)}{X+Y+6})^2 \\
+			 = \frac{(X+Y+6)(64J^2(X+Y)) - (8J(X-Y))^2}{(X+Y+6)^2}\\
+			 = \frac{64J^2}{(X+Y+6)^2} (X+Y+6)(X+Y)-(X-Y)^2\\
+			 = \frac{64J^2}{(X+Y+6)^2} \qty( X^2+XY+XY+Y^2+6X+6Y-X^2+2XY-Y^2 )\\
+			 = \frac{64J^2}{(X+Y+6)^2} \qty( 6X + 6Y + 4 )\\
+			\expect{C_v} = \frac{64J^2}{kT^2} \frac{6X + 6Y + 4}{(X+Y+6)^2}
+		\end{align*}
 
 	
 \newpage
 \section{Results}
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\subsection{Comparison with analytical results}
+	From the formulas of the expectation values solved for the 2x2 lattice we can compare these values, using $T=J=\beta=1$ (in units kT/J), with our numerical averages.
+	\begin{center}
+	\begin{tabular} {l | c | c }
+		MC cycles & 	$\expect{E}$ pr spin & $\expect{|M|}$ pr spin \\ \hline \\
+		N/A - Analytical & -1.9959820 & 0.99866073 \\
+		$10^5$ & -1.9932000 & 0.99800000\\
+		$10^5$ & -1.9960400 & 0.99867000\\
+		$10^6$ & -1.9959000 & 0.99859900\\
+		$10^7$ & -1.9959180 & 0.99864450\\
+		$10^8$ & -1.9959816 & 0.99866149
+		%\\$10^9$ & -1.9959776 & 0.99865967\\
+	\end{tabular}
+	\end{center}
+	We can see that the number of montecarlo cycles generally improves the model, making the average of the results come closer and closer to the expectation value. In order to get meaningful data from a system in relative equilibrium only the last half of the montecarly cycles are actually sampled from.
+
+	Below is shown how the energies of four different systems evolve with time. In the first plot is a system at low temperatures and with a completely ordered initial lattice. Then a system with increased temperature and finally two systems in the same plots with the same two temperatures as before but with a randomized initial lattice.
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{4c.pdf}
+		\caption{Log plots showing expectation value as a function of Monte Carlo cycles for $10^5$ cycles. Both for two different temperatures and differing initial lattice (ordered or random)}
+	\end{center}
+	\end{figure}
+	It is important to note that the x-axis is logarithmic. This way we can clearly see how the energy fluctuates wildly in the beginning before the system has gotten any time to calm down. Another important note is that the y-axis in the first plot shows deviation from -1.995 and therefore only really shows small changes from -2.000 until -1.995. Such small deviations is to be expected when this system practically starts out in a 'preferred' state.
+
+	\newpage
+\subsection{Microstates during the relaxation time}
+	Looking at the microstates during the relaxation time a bit more closely we can how the system changes over time.
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{t1_1000mcc_graphical.pdf}
+		\caption{Here we see the system for T=1.0 change as it goes from completely disordered spins until they are completely aligned}
+	\end{center}
+	\end{figure}
+	
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{t1_1000mcc_energies.pdf}
+		\caption{In this plot is a plot of the energies for the same system. The y axis shows energy in units kt/J pr dipole ($n^2$). The blue line represents each microstate and the green shows the mean energy for the system up until that point}
+	\end{center}
+	\end{figure}
+
+	\newpage
+	As a comparison we have a completely different case when the temperature is turned up to $T=1.7$.
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{t17_1000mcc_graphical.pdf}
+		\caption{Here we see the system for T=1.7 change as it goes from completely disordered spins to a more ordered state. However it settles at a much more disordered point than for the lower temperature}
+	\end{center}
+	\end{figure}
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{t17_1000mcc_energies.png}
+		\caption{In this plot is a plot of the energies for the same system. The y axis shows energy in units kt/J pr dipole ($n^2$). The blue line represents each microstate and the green shows the mean energy for the system up until that point}
+	\end{center}
+	\end{figure}
+
+	\newpage
+	\subsection{Achievable states after equilibrium is reached}
+	We can also look at the system as after it has reached equilibrium. If we plot a histogram of the number of states achieving a certain energy we get a measure of how common these energies are.
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{MC1000000T1-distN20-hist.pdf}
+		\caption{Histogram of states at T = 1 }
+	\end{center}
+	\end{figure}
+
+	\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{MC1000000T24-distN20-hist.pdf}
+		\caption{Histogram of states at T = 2.4}
+	\end{center}
+	\end{figure}
+	We can clearly see that when the temperature is lower the system almost exclusively stays around states with a certain energy (around -2.00). While an increase in temperature leads the number of achievable states to increase drastically.
 
 	
 \newpage
 \section{Conclusion}
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	It is apparent that the Ising model is sufficient for explaining ferromagnetic materials. Analytical solutions of this model are tough but numerical experiments utilizing the montecarlo method are more readily available and paint an accurate depiction how ferromagnetic materials behave. The systems become more disordered at higher temperatures and the average energy increases.
 
+\newpage
 \section{Postface}
-	Results and programs for this project was performed and implemented by the author and can be found at \hyperref{https://github.com/mikaelbk/fys3150-project4}. However, it should be noted that work on this project was done in collaboration with fellow student \hyperref[Erik Skaar]{https://github.com/erikfsk} and that certain experimental results are shared. The writing of this report was by the author only.
+	Results and programs for this project was performed and implemented by the author and can be found at \hyperref[https://github.com/mikaelbk/fys3150-project4]{https://github.com/mikaelbk/fys3150-project4}. However, it should be noted that work on this project was done in collaboration with fellow student \hyperref[Erik Skaar]{https://github.com/erikfsk} and that certain experimental results are shared. The writing of this report was by the author only.
+
 \begin{thebibliography}{9}
 	\bibitem{schroeder}
 	Daniel V. Schroeder,
