@@ -1,7 +1,11 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Theory}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{The Ising Model}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Analytical solution of energies for the 2x2 lattice}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Analytical expressions for expectation values in 2x2 lattice}{section.2}% 5
-\BOOKMARK [1][-]{section.3}{Results}{}% 6
-\BOOKMARK [1][-]{section.4}{Conclusion}{}% 7
+\BOOKMARK [2][-]{subsection.2.2}{Monte Carlo Method}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Precalculation of flip probability}{subsection.2.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{The 2x2 lattice}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Analytical solution of energies for the 2x2 lattice}{subsection.2.3}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Partition function, magnetization and expectation values}{subsection.2.3}% 8
+\BOOKMARK [1][-]{section.3}{Results}{}% 9
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 10
+\BOOKMARK [1][-]{section.5}{Postface}{}% 11
